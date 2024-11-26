@@ -5,13 +5,9 @@ options:
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
-      - kms
-      - decrypt
-      - --ciphertext-file=secrets.enc.yaml
-      - --plaintext-file=secrets.yaml
-      - --keyring=my-keyring
-      - --key=my-key
-      - --location=global
+        - 'cp'
+        - 'secrets.yaml'
+        - '/workspace/secrets.yaml'
 
   # 2. Create Kubernetes secrets
   - name: 'gcr.io/cloud-builders/kubectl'
