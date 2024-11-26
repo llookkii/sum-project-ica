@@ -3,14 +3,16 @@ options:
   logging: CLOUD_LOGGING_ONLY  # Use Cloud Logging only (no Cloud Storage bucket)
 
 steps:
-  # 1. Decrypt secrets using Cloud KMS
-  - name: 'gcr.io/cloud-builders/kms'
+  # 1. Decrypt secrets using Cloud KMS via gcloud
+  - name: 'gcr.io/cloud-builders/gcloud'
     args:
+      - 'kms'
       - 'decrypt'
-      - '--keyring=my-keyring'
-      - '--key=my-key'
-      - '--ciphertext-file=secrets.enc.yaml'
-      - '--plaintext-file=secrets.yaml'
+      - '--keyring=YOUR_KEYRING_NAME'  # Replace with your KeyRing name
+      - '--key=YOUR_KEY_NAME'           # Replace with your Key name
+      - '--location=global'             # or your key's region (e.g., 'us-central1')
+      - '--ciphertext-file=secrets.enc.yaml'  # Input encrypted file
+      - '--plaintext-file=secrets.yaml'      # Output decrypted file
 
   # 2. Create Kubernetes secrets
   - name: 'gcr.io/cloud-builders/kubectl'
