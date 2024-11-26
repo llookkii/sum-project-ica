@@ -1,3 +1,7 @@
+options:
+  #machineType: 'E2_SMALL'  # Choose the smallest machine type
+  logging: NONE  # Do not store any build logs
+
 steps:
   # 1. Decrypt secrets using Cloud KMS
   - name: 'gcr.io/cloud-builders/kms'
