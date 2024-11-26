@@ -1,5 +1,6 @@
 options:
-  logsBucket: gs://logs-bucket-ica4
+  logging: CLOUD_LOGGING_ONLY  # Logs will be written to Cloud Logging
+  logsBucket: gs://logs-bucket-ica4  # Specify the GCS bucket for storing logs
 
 steps:
   # 1. Decrypt secrets using Cloud KMS
