@@ -5,7 +5,12 @@ options:
 steps:
   # 1. Decrypt secrets using Cloud KMS
   - name: 'gcr.io/cloud-builders/kms'
-    args: ['decrypt', '--ciphertext-file=secrets.enc.yaml', '--plaintext-file=secrets.yaml']
+    args:
+      - 'decrypt'
+      - '--keyring=my-keyring'
+      - '--key=my-key'
+      - '--ciphertext-file=secrets.enc.yaml'
+      - '--plaintext-file=secrets.yaml'
 
   # 2. Create Kubernetes secrets
   - name: 'gcr.io/cloud-builders/kubectl'
