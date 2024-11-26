@@ -1,3 +1,6 @@
+options:
+  logsBucket: gs://logs-bucket-ica4
+
 steps:
   # 1. Decrypt secrets using Cloud KMS
   - name: 'gcr.io/cloud-builders/kms'
