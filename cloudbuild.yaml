@@ -1,3 +1,7 @@
+options:
+  #machineType: 'E2_SMALL'  # Choose the smallest machine type
+  logging: CLOUD_LOGGING_ONLY  # Use Cloud Logging only (no Cloud Storage bucket)
+
 steps:
   # 1. Decrypt secrets using Cloud KMS
   - name: 'gcr.io/cloud-builders/kms'
