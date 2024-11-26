@@ -24,6 +24,6 @@ spec:
     spec:
       containers:
         - name: sum-frontend
-          image: gcr.io/$PROJECT_ID/sum-frontend:latest
+          image: gcr.io/evident-flame-400500 /sum-frontend:latest
           ports:
             - containerPort: 80

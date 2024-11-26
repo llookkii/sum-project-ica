@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: sum-backend
-          image: gcr.io/$PROJECT_ID/sum-backend:latest
+          image: gcr.io/evident-flame-400500 /sum-backend:latest
           ports:
             - containerPort: 5000
           env:
