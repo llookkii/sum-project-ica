@@ -12,6 +12,8 @@ DB_USER = os.getenv('DB_USER', 'dbuser')
 DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')
 
 # Function to create the database table if it doesn't exist
+
+
 def create_table():
     try:
         conn = psycopg2.connect(
@@ -36,6 +38,7 @@ def create_table():
         conn.close()
     except Exception as e:
         print(f"Error creating table: {e}")
+
 
 @app.route('/calculate', methods=['POST'])
 def calculate_sum():
@@ -67,6 +70,7 @@ def calculate_sum():
     except Exception as e:
         print(f"Error inserting into database: {e}")
         return jsonify({'error': 'Database error'}), 500
+
 
 if __name__ == '__main__':
     # Create table on app startup

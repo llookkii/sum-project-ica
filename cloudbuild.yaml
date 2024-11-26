@@ -1,0 +1,28 @@
+steps:
+  # 1. Decrypt secrets using Cloud KMS
+  - name: 'gcr.io/cloud-builders/kms'
+    args: ['decrypt', '--ciphertext-file=secrets.enc.yaml', '--plaintext-file=secrets.yaml']
+
+  # 2. Create Kubernetes secrets
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'kubernetes/secrets.yaml']
+
+  # 3. Build and push backend Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/evident-flame-400500/sum-backend:latest', './backend']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/evident-flame-400500/sum-backend:latest']
+
+  # 4. Build and push frontend Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/evident-flame-400500/sum-frontend:latest', './frontend']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/evident-flame-400500/sum-frontend:latest']
+
+  # 5. Apply all Kubernetes manifests in the `kubernetes/` directory
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'kubernetes/']
+
+images:
+  - 'gcr.io/evident-flame-400500/sum-backend:latest'
+  - 'gcr.io/evident-flame-400500/sum-frontend:latest'
