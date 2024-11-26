@@ -1,8 +1,3 @@
-options:
-  #machineType: 'E2_SMALL'  # Use the smallest machine type
-  region: 'us-central1'    # Specify a valid region
-  logging: CLOUD_LOGGING_ONLY
-
 steps:
   # 1. Decrypt secrets using Cloud KMS
   - name: 'gcr.io/cloud-builders/kms'
