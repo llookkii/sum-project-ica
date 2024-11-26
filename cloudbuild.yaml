@@ -10,7 +10,14 @@ steps:
 
   # Step 2: Apply Kubernetes secrets
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'kubernetes/secrets.yaml']
+    env:
+        - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Set region for the cluster
+        - 'CLOUDSDK_COMPUTE_ZONE=us-central1'    # Set zone for the cluster
+        - 'CLOUDSDK_CONTAINER_CLUSTER=devops-cluster'  # Set your cluster name
+    args:
+        - 'apply'
+        - '-f'
+        - 'kubernetes/secrets.yaml'
 
   # 3. Build and push backend Docker image
   - name: 'gcr.io/cloud-builders/docker'
