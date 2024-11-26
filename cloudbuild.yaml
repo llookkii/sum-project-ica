@@ -12,7 +12,7 @@ steps:
   - name: 'gcr.io/cloud-builders/kubectl'
     env:
         - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Ensure region is correct
-        - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'  # Ensure zone is correct
+        - 'CLOUDSDK_COMPUTE_ZONE=us-central1'  # Ensure zone is correct
         - 'CLOUDSDK_CONTAINER_CLUSTER=devops-cluster'  # Ensure cluster name is correct
     args:
         - 'apply'
@@ -37,6 +37,15 @@ steps:
         - 'apply'
         - '-f'
         - 'kubernetes/'
+
+  # Step 6: Cluster info check to verify the setup
+  - name: 'gcr.io/cloud-builders/kubectl'
+    env:
+        - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Ensure region is correct
+        - 'CLOUDSDK_COMPUTE_ZONE=us-central1'  # Ensure zone is correct
+        - 'CLOUDSDK_CONTAINER_CLUSTER=devops-cluster'  # Ensure cluster name is correct
+    args:
+        - 'cluster-info'
 
 options:
   logging: CLOUD_LOGGING_ONLY
