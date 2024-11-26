@@ -1,23 +1,23 @@
 steps:
-  # Step 1: Set up the Kubernetes credentials
+  # Step 1: Set up the Kubernetes credentials using gcloud
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - 'container'
       - 'clusters'
       - 'get-credentials'
-      - 'devops-cluster'  # Ensure this is the correct cluster name
-      - '--region=us-central1'  # Ensure this is the correct region for the cluster
+      - 'devops-cluster'  # Your cluster name
+      - '--region=us-central1'  # Your cluster region
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Ensure the region is correct
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1'  # Ensure the zone is correct
+      - 'CLOUDSDK_CONTAINER_CLUSTER=devops-cluster'  # Ensure the cluster name is correct
 
   # Step 2: Apply Kubernetes secrets
   - name: 'gcr.io/cloud-builders/kubectl'
-    env:
-        - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Ensure region is correct
-        - 'CLOUDSDK_COMPUTE_ZONE=us-central1'  # Ensure zone is correct
-        - 'CLOUDSDK_CONTAINER_CLUSTER=devops-cluster'  # Ensure cluster name is correct
     args:
-        - 'apply'
-        - '-f'
-        - 'kubernetes/secrets.yaml'
+      - 'apply'
+      - '-f'
+      - 'kubernetes/secrets.yaml'
 
   # Step 3: Build and push backend Docker image
   - name: 'gcr.io/cloud-builders/docker'
@@ -31,21 +31,21 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/evident-flame-400500/sum-frontend:latest']
 
-  # Step 5: Apply all Kubernetes manifests
+  # Step 5: Apply all Kubernetes manifests in the `kubernetes/` directory
   - name: 'gcr.io/cloud-builders/kubectl'
     args:
-        - 'apply'
-        - '-f'
-        - 'kubernetes/'
+      - 'apply'
+      - '-f'
+      - 'kubernetes/'
 
-  # Step 6: Cluster info check to verify the setup
+  # Step 6: Verify Kubernetes cluster info (checking if the credentials are valid)
   - name: 'gcr.io/cloud-builders/kubectl'
-    env:
-        - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Ensure region is correct
-        - 'CLOUDSDK_COMPUTE_ZONE=us-central1'  # Ensure zone is correct
-        - 'CLOUDSDK_CONTAINER_CLUSTER=devops-cluster'  # Ensure cluster name is correct
     args:
-        - 'cluster-info'
+      - 'cluster-info'
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Ensure region is correct
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1'  # Ensure zone is correct
+      - 'CLOUDSDK_CONTAINER_CLUSTER=devops-cluster'  # Ensure cluster name is correct
 
 options:
   logging: CLOUD_LOGGING_ONLY
