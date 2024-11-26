@@ -1,15 +1,6 @@
-options:
-  #machineType: 'E2_SMALL'  # Choose the smallest machine type
-  logging: CLOUD_LOGGING_ONLY  # Use Cloud Logging only (no Cloud Storage bucket)
-
 steps:
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-        - 'cp'
-        - 'secrets.yaml'
-        - '/workspace/secrets.yaml'
 
-  # 2. Create Kubernetes secrets
+  # 2. Create Kubernetes secrets from secrets.yaml
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'kubernetes/secrets.yaml']
 
