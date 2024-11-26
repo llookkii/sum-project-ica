@@ -5,35 +5,38 @@ steps:
       - 'container'
       - 'clusters'
       - 'get-credentials'
-      - 'devops-cluster'  # Replace with your cluster name
-      - '--region=us-central1'  # Replace with the appropriate region/zone for your cluster
+      - 'devops-cluster'  # Ensure this is the correct cluster name
+      - '--region=us-central1'  # Ensure this is the correct region for the cluster
 
   # Step 2: Apply Kubernetes secrets
   - name: 'gcr.io/cloud-builders/kubectl'
     env:
-        - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Set region for the cluster
-        - 'CLOUDSDK_COMPUTE_ZONE=us-central1'    # Set zone for the cluster
-        - 'CLOUDSDK_CONTAINER_CLUSTER=devops-cluster'  # Set your cluster name
+        - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Ensure region is correct
+        - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'  # Ensure zone is correct
+        - 'CLOUDSDK_CONTAINER_CLUSTER=devops-cluster'  # Ensure cluster name is correct
     args:
         - 'apply'
         - '-f'
         - 'kubernetes/secrets.yaml'
 
-  # 3. Build and push backend Docker image
+  # Step 3: Build and push backend Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/evident-flame-400500/sum-backend:latest', './backend']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/evident-flame-400500/sum-backend:latest']
 
-  # 4. Build and push frontend Docker image
+  # Step 4: Build and push frontend Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/evident-flame-400500/sum-frontend:latest', './frontend']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/evident-flame-400500/sum-frontend:latest']
 
-  # 5. Apply all Kubernetes manifests in the `kubernetes/` directory
+  # Step 5: Apply all Kubernetes manifests
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'kubernetes/']
+    args:
+        - 'apply'
+        - '-f'
+        - 'kubernetes/'
 
 options:
   logging: CLOUD_LOGGING_ONLY
