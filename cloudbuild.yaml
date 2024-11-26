@@ -6,7 +6,7 @@ steps:
       - 'clusters'
       - 'get-credentials'
       - 'devops-cluster'  # Replace with your cluster name
-      - '--region=us-central1-a'  # Replace with the appropriate region/zone for your cluster
+      - '--region=us-central1'  # Replace with the appropriate region/zone for your cluster
 
   # Step 2: Apply Kubernetes secrets
   - name: 'gcr.io/cloud-builders/kubectl'
