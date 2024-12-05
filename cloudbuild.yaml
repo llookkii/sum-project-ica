@@ -53,4 +53,3 @@ options:
 images:
   - 'gcr.io/evident-flame-400500/sum-backend:latest'
   - 'gcr.io/evident-flame-400500/sum-frontend:latest'
-
